@@ -11,7 +11,7 @@ app.use(express.json());
 const upload= multer({storage: multer.memoryStorage()});
 
 //post api to create new post
-app.post("/create-feed", upload.single("imageURL"), async (req, res) => {
+app.post("/api/create-feed", upload.single("imageURL"), async (req, res) => {
 
     const imageURL = req.file.buffer
     const caption= req.body.caption
@@ -29,7 +29,7 @@ app.post("/create-feed", upload.single("imageURL"), async (req, res) => {
 })
 
 //get api to get all posts
-app.get("/feeds", async (req, res) => {
+app.get("/api/feeds", async (req, res) => {
 
     const feed= await feedModel.find();
 

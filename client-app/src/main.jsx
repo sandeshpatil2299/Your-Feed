@@ -8,12 +8,17 @@ import { createBrowserRouter } from "react-router";
 import { RouterProvider } from "react-router/dom";
 
 import CreateFeed from './pages/CreateFeed.jsx';
+import Feed from './pages/Feed.jsx';
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <CreateFeed/>,
+    element: <CreateFeed />,
   },
+  {
+    path: "/feed",
+    element: <Feed />,
+  }
 ]);
 
 const root = document.getElementById("root");
