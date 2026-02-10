@@ -1,42 +1,18 @@
 const express= require("express");
 const app= express();
-const multer= require("multer");
-const feedModel = require("./models/feed.model")
-const uploadFilesOnCloudinary= require("./services/upload.service");
+const cookieParser= require("cookie-parser")
+
+const authRoutes= require("./routes/auth.routes");
+const postRoutes= require("./routes/post.routes")
 
 //to read files
 
 //middleware to read json request body
 app.use(express.json());
-const upload= multer({storage: multer.memoryStorage()});
+app.use(cookieParser());
 
-//post api to create new post
-app.post("/api/create-feed", upload.single("imageURL"), async (req, res) => {
+app.use("/api/auth", authRoutes);
+app.use("/api/post", postRoutes)
 
-    const imageURL = req.file.buffer
-    const caption= req.body.caption
-
-    const result= await uploadFilesOnCloudinary(imageURL);
-    
-    await feedModel.create({
-        imageURL: result.url,
-        caption: caption
-    })
-
-    res.status(201).json({
-        message: "Feed created successfuly"
-    })
-})
-
-//get api to get all posts
-app.get("/api/feeds", async (req, res) => {
-
-    const feed= await feedModel.find();
-
-    return res.status(200).json({
-        message: "Data fetched successfuly",
-        feed:feed
-    })
-})
 
 module.exports= app;
